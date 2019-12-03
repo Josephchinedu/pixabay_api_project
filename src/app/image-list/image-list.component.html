@@ -1,0 +1,39 @@
+<mat-card>
+    <form class="example-form">
+        <mat-form-field>
+            <input class="search" matInput [(ngModel)]="searchQuery" name="search" placeholder="search for images">
+        </mat-form-field>
+    </form>
+    <br />
+    <button (click)="searchImages(searchQuery)" class="searchButton" type="button" mat-raised-button>Find Images</button>
+</mat-card>
+
+<div *ngIf="searching">
+    <mat-progress-bar mode="indeterminate">
+
+    </mat-progress-bar>
+</div>
+
+<h4 *ngIf="imagesFound" mat-subheader>Results</h4>
+<ngx-masonry [useImagesLoaded]="true">
+    <div class="masonry">
+        <div *ngFor="let image of images, let show of fimg" class="image-container masonry-brick" ng-repeat="brick in bricks">
+            <mat-card>
+                <a href="{{image.pageURL}}" target="_blank">
+                    <mat-card-header>
+                        <div class="avatar" mat-card-avatar [ngStyle]="{'background-image':'url('+ image.userImageURL +')', 'background-size':'40px 40px'}"></div>
+                        <mat-card-title>User: {{image.user}}</mat-card-title>
+                    </mat-card-header>
+                    <img mat-card-image src="{{image.webformatURL}}">
+                    <mat-card-content>
+                        <p>Tags: {{image.tags}}</p>
+                        <p>Comments: {{image.comments}}</p>
+                        <p>Likes: {{image.likes}}</p>
+                    </mat-card-content>
+                </a>
+            </mat-card>
+        </div>
+    </div>
+</ngx-masonry>
+
+<script src="../src/masonry.js"></script>
